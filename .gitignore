@@ -9,3 +9,11 @@
 
 # RStudio files
 .Rproj.user/
+
+#pdf 
+
+.pdf
+
+#data files 
+
+./data
