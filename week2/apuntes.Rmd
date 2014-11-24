@@ -116,9 +116,139 @@ xyplot(y ~ x | f, panel = function(x, y, ...) {
 -------------------------------
  
  
-ggplot
+ggplot2
 =============
 
+Implementacion de "the gramar of graphycs"
 
+documentacion en ggplot2
+ 
+ 
+### qplot  
+
+quick plot,  es la funcion basica y hace muchos tipos de plot 
+
+Los datos tienen que estar en dataframe
+
+se subsetea por datos que este como factores
+
+
+### ggplot 
+
+es la funcion fundamental y es la que mas puede hacer
+
+
+```{r}
+library (ggplot2)
+data(mpg) 
+
+qplot(displ,hwy,data=mpg)
+```
+
+Esto es autoexplicativo 
+
+Si agnadimos color con un factor se pone sola la leyenda
+
+```{r}
 
  
+qplot(displ,hwy,data=mpg, col = drv)
+```
+
+
+
+Tambien se puede a??adir un summary con geom, por ejemplo desviaciones 
+
+
+Si no se pusiera el point solo apareceria la linea
+
+```{r}
+
+ 
+qplot(displ,hwy,data=mpg, geom = c("point","smooth"))
+```
+
+
+
+con una sola variable hace solo un histograma
+
+```{r}
+qplot(hwy,data = mpg,fill =drv)
+```
+
+
+### facets 
+
+es el equivalente a los panels 
+
+
+```{r}
+qplot(displ,hwy,data=mpg,facets=.~drv) 
+```
+
+
+importante como se ponen las interacciones en los facets 
+
+```{r}
+qplot(displ,hwy,data=mpg,facets=drv~.,binwidht=2) 
+```
+
+
+si en vez de . se pusiera otra variable se pondria la interaccion  
+
+con histogramas lo siguente mola 
+
+```{r}
+qplot(displ,data=mpg,facets=drv~.) 
+``` 
+
+
+con shape=variable se separa por variables como cuando se hace con colores 
+
+al hacer un smooth  se pueden poner otros metodos (por ejemplo con method="lm") se hace un linear model 
+
+
+ggplot generico
+--------------
+
+Funciona en layers
+
+* Plot data
+* Overlay a summary
+* Metadata y anotaciones
+
+
+a??adir en primer lugar a un objeto los datos basicos
+g<- ggplot(data,aes(x,y,...)) 
+
+se puede hacer un summary a un plot en cualquier punto 
+aes es por aestetics
+despues se a??aden cosas
+
+No hay todavia un plot hasta que no se a??ada un geom 
+
+g<-g+geom_point() 
+
+agnadir un smooth 
+
+g<-g+geom_smooth      quiza a??adiendo un (method="lm") el default es el loes 
+
+a??adir facets  +facet_grid(var1~var2)   una de las var puede ser . 
+
+Anotacion, como opciones en las funciones,  para cosas globales se debe usar theme 
+
+para poner varios colores distiontes es geom_point(aes(color=variable)) 
+en los puntos puedes cambiar size y alpha (transparencia) 
+
+labels  labs(x="das", y="ssd") 
+
+en geom_smooth puedes tunear un monton de cosas con las opciones 
+
+
+Limites de ejes:
+Si se hace con un ylim los puntos que esten fuera se ignoran, y no se unen con las lineas
+
+si se quiere que se unan sin que se descojone el eje hay que poner +coord_cartesian(ylim=(1,2)) 
+
+
+convertir una variable continua en categorica para pintar separado: usar cut

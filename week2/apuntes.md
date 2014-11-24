@@ -139,7 +139,143 @@ xyplot(y ~ x | f, panel = function(x, y, ...) {
 -------------------------------
  
  
-ggplot
+ggplot2
 =============
+
+Implementacion de "the gramar of graphycs"
+
+documentacion en ggplot2
  
  
+### qplot  
+
+quick plot,  es la funcion basica y hace muchos tipos de plot 
+
+Los datos tienen que estar en dataframe
+
+se subsetea por datos que este como factores
+
+
+### ggplot 
+
+es la funcion fundamental y es la que mas puede hacer
+
+
+
+```r
+library(ggplot2)
+data(mpg)
+
+qplot(displ, hwy, data = mpg)
+```
+
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
+
+
+Esto es autoexplicativo 
+
+Si agnadimos color con un factor se pone sola la leyenda
+
+
+```r
+
+qplot(displ, hwy, data = mpg, col = drv)
+```
+
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
+
+
+
+
+Tambien se puede a??adir un summary con geom, por ejemplo desviaciones 
+
+
+Si no se pusiera el point solo apareceria la linea
+
+
+```r
+
+qplot(displ, hwy, data = mpg, geom = c("point", "smooth"))
+```
+
+```
+## geom_smooth: method="auto" and size of largest group is <1000, so using loess. Use 'method = x' to change the smoothing method.
+```
+
+![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
+
+
+
+
+con una sola variable hace solo un histograma
+
+
+```r
+qplot(hwy, data = mpg, fill = drv)
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
+
+
+
+### facets 
+
+es el equivalente a los panels 
+
+
+
+```r
+qplot(displ, hwy, data = mpg, facets = . ~ drv)
+```
+
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
+
+
+
+importante como se ponen las interacciones en los facets 
+
+
+```r
+qplot(displ, hwy, data = mpg, facets = drv ~ ., binwidht = 2)
+```
+
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
+
+
+
+si en vez de . se pusiera otra variable se pondria la interaccion  
+
+con histogramas lo siguente mola 
+
+
+```r
+qplot(displ, data = mpg, facets = drv ~ .)
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
+
+
+
+con shape=variable se separa por variables como cuando se hace con colores 
+
+al hacer un smooth  se pueden poner otros metodos (por ejemplo con method="lm") se hace un linear model 
+
+
+ggplot generico
+--------------
+
+Funciona en layers
+
+* Plot data
+* Overlay a summary
+* Metadata y anotaciones
